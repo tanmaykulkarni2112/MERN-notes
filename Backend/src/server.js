@@ -11,13 +11,13 @@ const connectDB = require('./config/db.js');
 
 connectDB();
 
-// Commenting this out since we are not using it for now
+
 //  We are handling the routes in notesRoute.js
-// app.use(express.Router());
+// app.use(express.Router()); // Commenting this out since we are not using it for now
 
 // Prefix handling, so that all routes with /api/notes will be handled by notesRoute.js
+app.use(express.json());
 app.use('/api/notes', notesRoute);
-
 
 app.listen(port, () => {
   console.log(`Server is running on localhost:${port}`);
