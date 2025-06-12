@@ -26,7 +26,7 @@ const redis = new Redis({
 // Create rate limiter (5 requests per 15 seconds)
 const ratelimit = new Ratelimit({
   redis: redis,
-  limiter: Ratelimit.slidingWindow(5, '15 s'),
+  limiter: Ratelimit.slidingWindow(20, '20 s'),
 });
 
 module.exports = ratelimit;
