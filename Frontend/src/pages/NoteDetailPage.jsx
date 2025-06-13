@@ -38,7 +38,7 @@ const NoteDetailPage = () => {
     // if(!window.confirm("Are you sure?")) return;
     const userPassword = window.prompt("Enter the password: ");
     try{
-      const response = await axios.post("http://localhost:3000/api/delete", {
+      const response = await api.post("http://localhost:3000/api/delete", {
         password : userPassword
       })
       if (response.status === 200) {
@@ -67,7 +67,7 @@ const NoteDetailPage = () => {
     }
     const userPassword = window.prompt("Enter the password: ");
     try{
-      const response = await axios.post("http://localhost:3000/api/delete", {
+      const response = await api.post("http://localhost:3000/api/delete", {
         password : userPassword
       })
       if (response.status === 200) {
