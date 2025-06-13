@@ -6,6 +6,7 @@ const notesRoute = require('./routes/notesRoute.js');
 const express = require('express');
 const app = express();
 const port = process.env.PORT;
+const auth_password = process.env.PASSWORD;
 const connectDB = require('./config/db.js');
 const rateLimiter = require('./middleware/rateLimiter.js');
 
@@ -16,6 +17,20 @@ app.use(express.json());
 app.use(rateLimiter);
 // Prefix handling, so that all routes with /api/notes will be handled by notesRoute.js
 app.use('/api/notes', notesRoute);
+
+// for handling the deletion
+app.post('/api/delete', (req,res) => {
+  const {password} = req.body;
+  if(password == auth_password) {
+    return res.status(200).json({
+      msg : "Authorized"
+    });
+  }
+  return res.status(400).json({
+    msg : "Unauthorized"
+  });
+})
+
 
 connectDB().then(() => {
   app.listen(port, () => {

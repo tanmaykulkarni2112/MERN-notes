@@ -12,6 +12,19 @@ const NoteCard = ({note, setNotes}) => {
     const handleDelete = async(e, id) => {
         e.preventDefault();
         if(!window.confirm("Are you sure you want to delete the note?")) return;
+        const userPassword = window.prompt("Enter the password: ");
+        try{
+        const response = await axios.post("http://localhost:3000/api/delete", {
+            password : userPassword
+        })
+        if (response.status === 200) {
+            console.log("Authenticated");
+        }
+        } catch(error) {
+        console.error("Authentication failed ",error);
+        toast.error("Unauthorized for this activity");
+        return; 
+        }
         // Create mechanism to handle the deletion from admin only
         try {
             await api.delete(`/notes/${id}`);

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {useNavigate, useParams} from 'react-router'
 import api from '../lib/axios'
+import axios from 'axios'
 import toast from 'react-hot-toast'
 import { ArrowLeftIcon, LoaderIcon, Trash2Icon } from 'lucide-react'
 import { Link } from 'react-router'
@@ -34,7 +35,21 @@ const NoteDetailPage = () => {
   },[id]);
 
   const handleDelete = async() => {
-    if(!window.confirm("Are you sure?")) return;
+    // if(!window.confirm("Are you sure?")) return;
+    const userPassword = window.prompt("Enter the password: ");
+    try{
+      const response = await axios.post("http://localhost:3000/api/delete", {
+        password : userPassword
+      })
+      if (response.status === 200) {
+        console.log("Authenticated");
+      }
+    } catch(error) {
+      console.error("Authentication failed ",error);
+      toast.error("Unauthorized for this activity");
+      return; 
+    }
+    
     try {
       await api.delete(`/notes/${id}`);
       toast.success('Note deleted');
@@ -49,6 +64,19 @@ const NoteDetailPage = () => {
     if (!note.title.trim() || !note.content.trim()) {
       toast.error("Please provide a title and content");
       return;
+    }
+    const userPassword = window.prompt("Enter the password: ");
+    try{
+      const response = await axios.post("http://localhost:3000/api/delete", {
+        password : userPassword
+      })
+      if (response.status === 200) {
+        console.log("Authenticated");
+      }
+    } catch(error) {
+      console.error("Authentication failed ",error);
+      toast.error("Unauthorized for this activity");
+      return; 
     }
     setSaving(true);
     try {
